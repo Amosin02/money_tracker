@@ -6,9 +6,8 @@ date.addEventListener("change", (e) => openThatDayTracker())
 moneyInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         addOrMinusMoney()
-        console.log(addedMoney)
-        console.log(moneyPulled)
         moneyInput.value = ""
+        console.log(currentDay.totalMoney)
     }
 })
 
@@ -19,7 +18,7 @@ addedMoney = []
 moneyPulled = []
 
 function openThatDayTracker() {
-    console.log(date.value)
+    currentDay.date = date.value
 }
 
 function addOrMinusMoney() {
@@ -29,5 +28,28 @@ function addOrMinusMoney() {
     } else {
         let lessMoney = moneyInput.value.slice(1, moneyInput.value.length)
         moneyPulled.unshift(lessMoney)
+    }
+
+    currentDay.moneyAdded = addedMoney
+    currentDay.moneyDeducted = moneyPulled
+    let addedUpMoney = addOrSubtractMoney(addedMoney, 1)
+    let addedUpExpenses = addOrSubtractMoney(moneyPulled, 2)
+    currentDay.totalMoney = parseInt(addedUpMoney) + parseInt(addedUpExpenses)
+
+    console.log(currentDay)
+}
+
+function addOrSubtractMoney(arr, operation) {
+    let sumOrDiff = 0
+    if (operation === 1) { // adds all the money
+        arr.forEach(element => {
+            sumOrDiff += parseInt(element)
+        });
+        return sumOrDiff
+    } else { // subtracts the money
+        arr.forEach(element => {
+            sumOrDiff -= parseInt(element)
+        })
+        return sumOrDiff
     }
 }
