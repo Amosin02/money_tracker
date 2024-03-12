@@ -6,19 +6,36 @@ date.addEventListener("change", (e) => openThatDayTracker())
 moneyInput.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         addOrMinusMoney()
+        outputMoney()
         moneyInput.value = ""
         console.log(currentDay.totalMoney)
     }
 })
 
-currentDay = {}
-overallMoney = []
+const overallMoney = []
+let currentDay = {}
+let allDates = {}
 
-addedMoney = []
-moneyPulled = []
+let addedMoney = []
+let moneyPulled = []
+
+let allMoney = 0 // put all the money from all the dates here
+
+function createNewDate() {
+    currentDay = {}
+    allDates = {}
+
+    addedMoney = []
+    moneyPulled = []
+}
 
 function openThatDayTracker() {
-    currentDay.date = date.value
+    createNewDate()
+    const dateSelected = date.value
+    currentDay.date = dateSelected
+
+    overallMoney.unshift(currentDay)
+    console.log(overallMoney)
 }
 
 function addOrMinusMoney() {
@@ -52,4 +69,26 @@ function addOrSubtractMoney(arr, operation) {
         })
         return sumOrDiff
     }
+
+}
+
+function outputMoney() {
+    form.innerHTML = ""
+    let totalSaved = 0
+    let totalExpenses = 0
+
+    currentDay.moneyAdded.forEach(x => {
+        totalSaved += parseInt(x)
+    })
+    currentDay.moneyDeducted.forEach(x => {
+        totalExpenses += parseInt(x)
+    })
+
+    form.innerHTML += `
+        <div>
+            <p>Saved: ${totalSaved}
+            <p>Expenses: ${totalExpenses}</p>
+            <p>Total: ${allMoney}</p>
+        </div>
+    `
 }
