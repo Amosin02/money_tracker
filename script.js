@@ -19,7 +19,14 @@ let allDates = {}
 let addedMoney = []
 let moneyPulled = []
 
-let allMoney = 0 // put all the money from all the dates here
+let allMoneyInOneDay = 0 // put all the money from all the dates here
+
+function addAllMoney() {
+    allMoneyInOneDay = 0 // put all the money from all the dates here
+    overallMoney.forEach(element => {
+        allMoneyInOneDay += element.totalMoney
+    });
+}
 
 function createNewDate() {
     currentDay = {}
@@ -35,7 +42,6 @@ function openThatDayTracker() {
     currentDay.date = dateSelected
 
     overallMoney.unshift(currentDay)
-    console.log(overallMoney)
 }
 
 function addOrMinusMoney() {
@@ -53,7 +59,7 @@ function addOrMinusMoney() {
     let addedUpExpenses = addOrSubtractMoney(moneyPulled, 2)
     currentDay.totalMoney = parseInt(addedUpMoney) + parseInt(addedUpExpenses)
 
-    console.log(currentDay)
+    addAllMoney()
 }
 
 function addOrSubtractMoney(arr, operation) {
@@ -88,7 +94,7 @@ function outputMoney() {
         <div>
             <p>Saved: ${totalSaved}
             <p>Expenses: ${totalExpenses}</p>
-            <p>Total: ${allMoney}</p>
+            <p>Total: ${allMoneyInOneDay}</p>
         </div>
     `
 }
